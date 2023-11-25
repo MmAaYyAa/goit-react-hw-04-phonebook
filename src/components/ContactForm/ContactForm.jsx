@@ -1,41 +1,39 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import {
   Form,
   Input,
   ContactFormButton,
   ContactFormTitle,
 } from './ContactForm.styled';
-const INITIAL_STATE = {
-  name: '',
-  number: '',
-};
 
-class ContactForm extends Component {
-  state = INITIAL_STATE;
+ export const ContactForm = ({createContacts})=> {
+  const[name,setName]= useState('');
+  const[number,setNumber]= useState('');
 
-  handleInputChange = event => {
-    this.setState({ [event.target.name]: event.target.value.trim() });
+  const handleInputChange = event => {
+    if(event.target.name === 'name') setName(event.target.value.trim());
+    if(event.target.name === 'number') setNumber(event.target.value.trim());
   };
 
-  handleFormSubmit = event => {
+  const handleFormSubmit = event => {
     event.preventDefault();
-    this.props.createContacts(this.state);
-    this.setState(INITIAL_STATE);
+    createContacts({name: name, number: number});
+    setName('');
+    setNumber('');
   };
 
-  render() {
     return (
       <>
         <ContactFormTitle>Phonebook</ContactFormTitle>
-        <Form onSubmit={this.handleFormSubmit}>
+        <Form onSubmit={handleFormSubmit}>
           <label>
             Name
             <Input
-              onChange={this.handleInputChange}
+              onChange={handleInputChange}
               type="text"
               name="name"
               placeholder="Enter name"
-              value={this.state.name}
+              value={name}
               pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
               required
             ></Input>
@@ -43,11 +41,11 @@ class ContactForm extends Component {
           <label>
             Number
             <Input
-              onChange={this.handleInputChange}
+              onChange={handleInputChange}
               type="tel"
               name="number"
               placeholder="Enter phone number"
-              value={this.state.number}
+              value={number}
               pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
               required
             ></Input>
@@ -56,7 +54,7 @@ class ContactForm extends Component {
         </Form>
       </>
     );
-  }
+  
 }
 
 export default ContactForm;
