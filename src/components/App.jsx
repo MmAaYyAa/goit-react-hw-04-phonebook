@@ -41,15 +41,18 @@ const[filter,setFilter]= useState('');
   };
 
   const handleFilter = ({ target: { value } }) => {
-    setFilter({value});
+    setFilter(value);
   };
 
-  const filteredContacts = useMemo(() => {
-    if (!filter) return;
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
-    );
-  }, [contacts,filter]);
+  // const filteredContacts = useMemo(() => {
+  //   return contacts.filter(contact =>
+  //     contact.name.toLowerCase().includes(filter.toLowerCase())
+  //   );
+  // }, [contacts,filter]);
+
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
 
     return (
       <>
